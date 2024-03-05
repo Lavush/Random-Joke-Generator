@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Joke Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="joke-container">
+  <h1>Boooredddd!!</h1>
+  <h2>Here are the jokes</h2>
+  <p id="joke"></p>
+  <button onclick="getJoke()">Get Another Joke</button>
+</div>
+
+<script>
+  const jokeContainer = document.getElementById('joke');
+const jokeButton = document.querySelector('button');
+
+async function getRandomJoke() {
+    try {
+        const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+        const data = await response.json();
+
+        if (data.type === 'twopart') {
+            jokeContainer.textContent = `${data.setup} ${data.delivery}`;
+        } else {
+            jokeContainer.textContent = data.joke;
+        }
+    } catch (error) {
+        console.error('Error fetching joke:', error);
+    }
+}
+
+// Initial joke on page load
+getRandomJoke();
+
+// Event listener for the "Get Joke" button
+jokeButton.addEventListener('click', getRandomJoke);
+
+</script>
+
+</body>
+</html>
